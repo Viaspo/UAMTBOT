@@ -70,7 +70,7 @@ bot.on('message', function (msg) {
                 if (args.length >= 2) {
                     if (args[1] == 'clear' || args[1] == 'clean' || args[1] == 'purge') {
                         ideas[msg.author.id] = [];
-                        msg.channel.send("Forgetting all your ideas. None of them was any good anyway...");
+                        msg.channel.send("Forgetting all your ideas. None of them were any good, anyway...");
                         fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
                         break;
                     } else {
@@ -87,7 +87,7 @@ bot.on('message', function (msg) {
                         });
 
                         if (foundUs.length == 0) {
-                            msg.channel.send("Sorry, I don't know wnyone called '" + uname + "'.");
+                            msg.channel.send("Sorry, I don't know anyone called '" + uname + "'.");
                             break;
                         } else if (foundUs.length > 1) {
                             msg.channel.send("Mate, I know **many** people called '" + uname + "'...");
@@ -100,11 +100,11 @@ bot.on('message', function (msg) {
                 // List them
                 if (!ideas[uid] || ideas[uid].length == 0) {
                     if (uid == 246332093808902144) {
-                        msg.channel.send("WOW! " + unma + " so full of ideas I can't even show them all!");
+                        msg.channel.send("WOW! " + unma + " is so full of ideas that I can't even show them all!");
                     } else if (uid == 412352063125717002) {
-                        msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas on a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
+                        msg.channel.send("gASK ~~keeps an ogranized list of ideas~~ puts all his ideas in a huge assorted pile on Trello.\nhttps://trello.com/b/1VpT0EUe/aground-modding");
                     } else {
-                        msg.channel.send("Sorry, seem like " + unma + " out of ideas!");
+                        msg.channel.send("Sorry, seems like " + unma + " is out of ideas!");
                     }
                 }
                 else {
@@ -139,7 +139,7 @@ bot.on('message', function (msg) {
                         msg.channel.send(idea.replace("@", "") + " was not a good one anyway ...");
                    }
                 } else {
-                    msg.channel.send("I have no idea what idea you are talking about?");
+                    msg.channel.send("What are you on about?");
                 }
                 fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
                 break;
@@ -151,6 +151,35 @@ bot.on('message', function (msg) {
                 ideas[msg.author.id].push(idea);
                 fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
                 msg.channel.send(idea + "? What a great idea, " + msg.author.username + "! I am saving that for you as idea #" + (ideas[msg.author.id].length) + ".");
+                break;
+            case "redo":
+                // Redo Idea
+                var id = args.slice(1).join(" ");
+                if (isNAN(id)) {
+                   let id = ideas[msg.author.id].indexOf(id);
+                } else { id -= 1; }
+                var idea = ideas[msg.author.id][id];
+                if (args.length < 3) {
+                    msg.channel.send("What are you going to replace " + idea + " with, " + msg.author.username + "?");
+                    return;
+                }
+                if (args.length < 2) {
+                    msg.channel.send("Uh.. redo **what** idea, exactly?");
+                    return;
+                }
+                else {
+                    switch(args[2]) {
+                    if (isNAN(id)) {
+                            let id = ideas[msg.author.id].indexOf(id);
+                            }
+                        }      
+                    }
+                var newidea = args.slice(1).join(" ").replace("@", "");
+                if (args.length >= 3 && idea != null && ideas[msg.author.id].splice(id,1).length > 0) {
+                    ideas[msg.author.id].replace(idea, newidea);
+                    fs.writeFile( "ideas.json", JSON.stringify(ideas), "utf8", function(error) {} );
+                    msg.channel.send("Okay, " + msg.author.username + ", the job is done!");
+                }
                 break;
             case "item":
                 if (args.length < 3) {
